@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import Card from '../components/Card.astro';
 
 const blogPosts = await getCollection('blog');
 // Sort posts by date (most recent first)
@@ -17,14 +18,12 @@ const sortedPosts = blogPosts.sort((a, b) => {
 
   <section class="blog-posts">
     {sortedPosts.map(post => (
-      <article class="blog-post">
-        <h2>{post.data.title}</h2>
-        <p class="post-date">{post.data.date}</p>
-        <p class="post-excerpt">
-          {post.body.split('\n\n')[0]}
-        </p>
-        <a href={`/blog/${post.slug}`} class="read-more">Read more</a>
-      </article>
+      <Card
+        title={post.data.title}
+        body={post.body.split('\n\n')[0]}
+        href={`/blog/${post.slug}`}
+        imgSrc={post.slug === 'why-i-love-react' ? '/images/react-logo.png' : undefined}
+      />
     ))}
   </section>
 </Layout>
@@ -46,35 +45,5 @@ const sortedPosts = blogPosts.sort((a, b) => {
   .blog-posts {
     display: grid;
     gap: 2rem;
-  }
-
-  .blog-post {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  }
-
-  .blog-post h2 {
-    margin-top: 0;
-    color: #333;
-  }
-
-  .post-date {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-
-  .read-more {
-    display: inline-block;
-    margin-top: 1rem;
-    color: #0066cc;
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .read-more:hover {
-    text-decoration: underline;
   }
 </style>
