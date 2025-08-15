@@ -6,44 +6,44 @@ import BlogCard from '../components/BlogCard.astro';
 const blogPosts = await getCollection('blog');
 // Sort posts by date (most recent first)
 const sortedPosts = blogPosts.sort((a, b) => {
-  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
 });
 ---
 
 <Layout>
-  <section class="blog-header">
-    <h1>My Blog</h1>
-    <p>Welcome to my blog! Here I share my thoughts and experiences.</p>
-  </section>
+    <section class="blog-header">
+        <h1>My Blog</h1>
+        <p>Welcome to my blog! Here I share my thoughts and experiences.</p>
+    </section>
 
-  <section class="blog-posts">
-    {sortedPosts.map(post => (
-      <BlogCard
-        title={post.data.title}
-        body={post.body.split('\n\n')[0]}
-        href={`/blog/${post.slug}`}
-        date={post.data.date}
-      />
-    ))}
-  </section>
+    <section class="blog-posts">
+        {sortedPosts.map(post => (
+            <BlogCard
+                title={post.data.title}
+                body={post.body.split('\n\n')[0]}
+                href={`/blog/${post.slug}`}
+                date={post.data.date}
+            />
+        ))}
+    </section>
 </Layout>
 
 <style>
-  .blog-header {
-    text-align: center;
-    padding: 3rem 1rem;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-  }
+    .blog-header {
+        text-align: center;
+        padding: 3rem 1rem;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
 
-  .blog-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
+    .blog-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
 
-  .blog-posts {
-    display: grid;
-    gap: 2rem;
-  }
+    .blog-posts {
+        display: grid;
+        gap: 2rem;
+    }
 </style>

@@ -152,7 +152,10 @@ const { Content } = await entry.render();
     const scrollPosition = window.scrollY;
     const scrollPercentage = (scrollPosition / documentHeight) * 100;
     
-    document.querySelector('.scroll-indicator').style.width = `${scrollPercentage}%`;
+    const scrollIndicator = document.querySelector('.scroll-indicator') as HTMLElement;
+    if (scrollIndicator) {
+      scrollIndicator.style.width = `${scrollPercentage}%`;
+    }
   }
 
   // Add scroll event listener
