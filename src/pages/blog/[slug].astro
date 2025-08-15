@@ -1,111 +1,55 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-export function getStaticPaths() {
-  return [
-    {
-      params: { slug: 'getting-started-with-astro' },
-      props: {
-        title: 'Getting Started with Astro',
-        date: 'August 15, 2025',
-        content: `
-          <p>Astro is an amazing framework for building fast websites. In this post, I share my experience getting started with Astro and how it compares to other frameworks.</p>
-          
-          <h2>Why Astro?</h2>
-          <p>Astro is a modern framework designed for building content-focused websites. It allows you to use your favorite UI components (React, Vue, Svelte, etc.) but delivers zero JavaScript by default, resulting in extremely fast loading times.</p>
-          
-          <h2>Key Features</h2>
-          <ul>
-            <li><strong>Component Islands:</strong> Use UI framework components but only hydrate them when necessary</li>
-            <li><strong>Zero JavaScript by default:</strong> Send only HTML and CSS to the browser</li>
-            <li><strong>Edge-ready:</strong> Deploy anywhere with ease</li>
-            <li><strong>Customizable:</strong> Tailwind, MDX, and hundreds of integrations to choose from</li>
-          </ul>
-          
-          <h2>Getting Started</h2>
-          <p>Starting a new Astro project is simple. You can use the following command:</p>
-          <pre><code>npm create astro@latest</code></pre>
-          
-          <p>This will guide you through the setup process and create a new Astro project with the default template.</p>
-          
-          <h2>Conclusion</h2>
-          <p>Astro has been a game-changer for my web development workflow. The ability to use components from any UI framework while still delivering lightning-fast websites is unmatched. I highly recommend giving it a try for your next project!</p>
-        `
-      }
-    },
-    {
-      params: { slug: 'why-i-love-react' },
-      props: {
-        title: 'Why I Love React',
-        date: 'August 10, 2025',
-        content: `
-          <p>React has been my go-to library for building interactive UIs. Here's why I think it's still one of the best choices for frontend development.</p>
-          
-          <h2>Declarative Syntax</h2>
-          <p>React's declarative approach makes it intuitive to build UIs. You describe how your UI should look based on the current state, and React takes care of updating the DOM efficiently.</p>
-          
-          <h2>Component-Based Architecture</h2>
-          <p>Breaking down your UI into reusable components helps maintain a clean codebase and improves developer productivity. Components can be composed together to build complex interfaces.</p>
-          
-          <h2>Strong Ecosystem</h2>
-          <p>The React ecosystem is vast and mature. From state management libraries like Redux to routing solutions like React Router, there's a well-tested library for almost any functionality you need.</p>
-          
-          <h2>Virtual DOM</h2>
-          <p>React's Virtual DOM approach ensures that updates to the actual DOM are minimal and efficient, resulting in better performance for interactive applications.</p>
-          
-          <h2>Conclusion</h2>
-          <p>After years of using React, I still find it to be an excellent choice for building modern web applications. Its component model, declarative approach, and robust ecosystem make it a joy to work with.</p>
-        `
-      }
-    },
-    {
-      params: { slug: 'building-my-personal-website' },
-      props: {
-        title: 'Building My Personal Website',
-        date: 'August 5, 2025',
-        content: `
-          <p>I recently rebuilt my personal website using Astro and React. In this post, I explain my design decisions and the development process.</p>
-          
-          <h2>Why I Chose Astro</h2>
-          <p>For a personal website that's primarily content-focused, Astro was the perfect choice. It allowed me to deliver a fast experience without sacrificing the developer experience I love.</p>
-          
-          <h2>Design Philosophy</h2>
-          <p>I wanted a clean, minimalist design that puts the content first. The site uses a simple color scheme with plenty of whitespace to ensure readability.</p>
-          
-          <h2>Technical Stack</h2>
-          <ul>
-            <li><strong>Astro:</strong> For the overall site structure and static generation</li>
-            <li><strong>React:</strong> For interactive components where needed</li>
-            <li><strong>CSS:</strong> Custom styling with component-scoped CSS</li>
-          </ul>
-          
-          <h2>Performance Considerations</h2>
-          <p>By using Astro's partial hydration feature, I was able to keep the initial JavaScript payload tiny while still having interactive elements where needed.</p>
-          
-          <h2>Conclusion</h2>
-          <p>Building this site was a great learning experience. The combination of Astro and React provided the perfect balance of performance and developer experience.</p>
-        `
-      }
-    }
-  ];
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
 }
 
-const { title, date, content } = Astro.props;
+const { entry } = Astro.props;
+const { Content } = await entry.render();
 ---
 
 <Layout>
+  <div class="scroll-indicator-container">
+    <div class="scroll-indicator"></div>
+  </div>
+  
   <article class="blog-post">
     <div class="post-header">
-      <h1>{title}</h1>
-      <p class="post-date">{date}</p>
+      <h1>{entry.data.title}</h1>
+      <p class="post-date">{entry.data.date}</p>
       <a href="/blog" class="back-to-blogs">← Back to all posts</a>
     </div>
     
-    <div class="post-content" set:html={content} />
+    <div class="post-content">
+      <Content />
+    </div>
   </article>
 </Layout>
 
 <style>
+  .scroll-indicator-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #f0f0f0;
+    z-index: 1000;
+  }
+
+  .scroll-indicator {
+    height: 100%;
+    width: 0;
+    background-color: #0066cc;
+    transition: width 0.1s ease;
+  }
+
   .blog-post {
     max-width: 800px;
     margin: 0 auto;
@@ -176,3 +120,21 @@ const { title, date, content } = Astro.props;
     font-family: monospace;
   }
 </style>
+
+<script>
+  // Update scroll indicator width based on scroll position
+  function updateScrollIndicator() {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+    const scrollPosition = window.scrollY;
+    const scrollPercentage = (scrollPosition / documentHeight) * 100;
+    
+    document.querySelector('.scroll-indicator').style.width = `${scrollPercentage}%`;
+  }
+
+  // Add scroll event listener
+  window.addEventListener('scroll', updateScrollIndicator);
+  
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', updateScrollIndicator);
+</script>
