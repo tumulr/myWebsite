@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import CodeSnippet from '../../components/CodeSnippet.astro';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
@@ -117,16 +118,29 @@ const { Content } = await entry.render();
     margin-bottom: 0.5rem;
   }
 
+  /* Enhanced code block styling */
   .post-content pre {
-    background-color: #f5f5f5;
-    padding: 1rem;
-    border-radius: 4px;
+    background-color: #2d2d2d;
+    color: #e6e6e6;
+    padding: 1.25rem;
+    border-radius: 8px;
     overflow-x: auto;
-    margin-bottom: 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .post-content code {
-    font-family: monospace;
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .post-content :not(pre) > code {
+    background-color: #f0f0f0;
+    color: #d63384;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    white-space: nowrap;
   }
 </style>
 

@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import Card from '../components/Card.astro';
+import BlogCard from '../components/BlogCard.astro';
 
 const blogPosts = await getCollection('blog');
 // Sort posts by date (most recent first)
@@ -18,11 +18,11 @@ const sortedPosts = blogPosts.sort((a, b) => {
 
   <section class="blog-posts">
     {sortedPosts.map(post => (
-      <Card
+      <BlogCard
         title={post.data.title}
         body={post.body.split('\n\n')[0]}
         href={`/blog/${post.slug}`}
-        imgSrc={post.slug === 'why-i-love-react' ? '/images/react-logo.png' : undefined}
+        date={post.data.date}
       />
     ))}
   </section>

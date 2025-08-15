@@ -1,0 +1,104 @@
+---
+interface Props {
+  code: string;
+  language?: string;
+  filename?: string;
+}
+
+const { code, language = "text", filename } = Astro.props;
+---
+
+<div class="code-snippet">
+  {filename && <div class="code-filename">{filename}</div>}
+  <pre class={`language-${language}`}><code class={`language-${language}`}>{code}</code></pre>
+</div>
+
+<style>
+  .code-snippet {
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .code-filename {
+    background-color: #2d2d2d;
+    color: #e6e6e6;
+    font-family: monospace;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #444;
+  }
+
+  pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    background-color: #2d2d2d;
+    color: #e6e6e6;
+  }
+
+  code {
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* Basic syntax highlighting colors */
+  :global(.token.comment),
+  :global(.token.prolog),
+  :global(.token.doctype),
+  :global(.token.cdata) {
+    color: #999;
+  }
+
+  :global(.token.punctuation) {
+    color: #ccc;
+  }
+
+  :global(.token.tag),
+  :global(.token.attr-name),
+  :global(.token.namespace),
+  :global(.token.deleted) {
+    color: #e2777a;
+  }
+
+  :global(.token.function-name) {
+    color: #6196cc;
+  }
+
+  :global(.token.boolean),
+  :global(.token.number),
+  :global(.token.function) {
+    color: #f08d49;
+  }
+
+  :global(.token.property),
+  :global(.token.class-name),
+  :global(.token.constant),
+  :global(.token.symbol) {
+    color: #f8c555;
+  }
+
+  :global(.token.selector),
+  :global(.token.important),
+  :global(.token.atrule),
+  :global(.token.keyword),
+  :global(.token.builtin) {
+    color: #cc99cd;
+  }
+
+  :global(.token.string),
+  :global(.token.char),
+  :global(.token.attr-value),
+  :global(.token.regex),
+  :global(.token.variable) {
+    color: #7ec699;
+  }
+
+  :global(.token.operator),
+  :global(.token.entity),
+  :global(.token.url) {
+    color: #67cdcc;
+  }
+</style>
