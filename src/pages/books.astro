@@ -13,7 +13,11 @@ import Layout from '../layouts/Layout.astro';
                 <p>A classic guide to software craftsmanship that has influenced developers for generations.</p>
             </li>
             <li>
-                <strong>Atomic Habits</strong> by James Clear
+                <strong>Atomic Habits <a href="/books/atomic-habits" class="notes-link">Notes</a></strong> by James Clear
+                
+                <!-- <div class="book-title">
+                    <a href="/books/atomic-habits" class="notes-link">Notes</a>
+                </div> -->
                 <p>An easy and proven way to build good habits and break bad ones.</p>
             </li>
             <li>
@@ -64,5 +68,34 @@ import Layout from '../layouts/Layout.astro';
     .book-list p {
         margin-top: 0.25rem;
         color: #555;
+    }
+
+    /* .book-title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    } */
+
+    .book-title strong {
+        display: inline;
+        margin-bottom: 0;
+    }
+
+    .notes-link {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        background-color: #0066cc;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 0.7rem;
+        transition: background-color 0.2s;
+        position: relative;
+        top: -1px;
+    }
+
+    .notes-link:hover {
+        background-color: #0055aa;
     }
 </style>
