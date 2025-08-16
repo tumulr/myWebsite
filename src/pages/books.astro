@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+    <section class="books-container">
+        <h1>My Bookshelf</h1>
+        <p>Here are some books I've enjoyed reading:</p>
+        
+        <ul class="book-list">
+            <li>
+                <strong>The Pragmatic Programmer</strong> by Andrew Hunt & David Thomas
+                <p>A classic guide to software craftsmanship that has influenced developers for generations.</p>
+            </li>
+            <li>
+                <strong>Atomic Habits</strong> by James Clear
+                <p>An easy and proven way to build good habits and break bad ones.</p>
+            </li>
+            <li>
+                <strong>Dune</strong> by Frank Herbert
+                <p>A masterpiece of science fiction that explores politics, religion, and ecology.</p>
+            </li>
+            <li>
+                <strong>Sapiens: A Brief History of Humankind</strong> by Yuval Noah Harari
+                <p>A thought-provoking exploration of the history of our species.</p>
+            </li>
+            <li>
+                <strong>The Design of Everyday Things</strong> by Don Norman
+                <p>A manifesto for human-centered design that changed how we think about usability.</p>
+            </li>
+        </ul>
+    </section>
+</Layout>
+
+<style>
+    .books-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .book-list {
+        margin-top: 2rem;
+        list-style-type: disc;
+        padding-left: 1.5rem;
+    }
+
+    .book-list li {
+        margin-bottom: 1.5rem;
+    }
+
+    .book-list strong {
+        display: block;
+        font-size: 1.2rem;
+        margin-bottom: 0.25rem;
+        color: #0066cc;
+    }
+
+    .book-list p {
+        margin-top: 0.25rem;
+        color: #555;
+    }
+</style>
