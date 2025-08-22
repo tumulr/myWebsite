@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import CodeSnippet from '../../components/CodeSnippet.astro';
+import Quote from '../../components/Quote.astro';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blogs');
@@ -28,7 +29,7 @@ const { Content } = await entry.render();
     </div>
     
     <div class="post-content">
-      <Content />
+      <Content components={{ Quote }} />
     </div>
   </article>
 </Layout>
