@@ -4,26 +4,24 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
     <section class="content">
-        <h2>Hello!, This is Tumul.</h2>
-        <p>
-            I am a Staff Software Engineer with over a decade of experience building and scaling complex systems. I thrive on the challenge of turning big ideas into robust, distributed systems that can handle real-world demands. This blog is where I share my journey, from tackling tough technical problems to exploring the latest in software architecture. When I'm not coding, I'm a proud father and a keen table tennis player. I believe in continuous learning, both in and out of the office, and I'm excited to share what I've learned with you.
-        </p>
+        <div class="profile-container">
+            <div class="text-content">
+                <h2>Hello!, This is Tumul.</h2>
+                <p>
+                    I am a Staff Software Engineer with over a decade of experience building and scaling complex systems. 
+                    I thrive on the challenge of turning big ideas into robust, distributed systems that can handle real-world demands.
+                    This blog is where I share my journey, from tackling tough technical problems to exploring the latest in software architecture.
+                    When I'm not coding, I'm a proud father and a keen table tennis player. I believe in continuous learning, both in and out of the office, and I'm excited to share what I've learned with you.
+                </p>
+            </div>
+            <div class="profile-pic">
+                <img src="/images/my_pic.jpg" alt="Profile picture of Tumul" />
+            </div>
+        </div>
     </section>
 </Layout>
 
 <style>
-    .hero {
-        text-align: center;
-        padding: 3rem 1rem;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        margin-bottom: 2rem;
-    }
-
-    .hero h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-    }
 
     .content {
         background-color: white;
@@ -32,9 +30,32 @@ import Layout from '../layouts/Layout.astro';
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         font-size: 1.2rem;
         line-height: 1.6;
-        text-align: center;
         max-width: 800px;
         margin: 0 auto;
+    }
+
+    .profile-container {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .text-content {
+        flex: 1;
+        text-align: left;
+    }
+
+    .profile-pic {
+        flex-shrink: 0;
+    }
+
+    .profile-pic img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #f3f4f6;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
     h2 {
