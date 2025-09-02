@@ -1,4 +1,4 @@
-# My Website
+# My Website 🙂
 
 <!-- # Astro Starter Kit: Basics
 
