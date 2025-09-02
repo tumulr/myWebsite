@@ -1,0 +1,139 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ScrollIndicator from '../../components/ScrollIndicator.astro';
+import Quote from '../../components/Quote.astro';
+---
+
+<Layout>
+    <ScrollIndicator />
+
+    <div class="blog-summary">
+        <nav class="breadcrumb">
+            <a href="/blogs">← Back to Blogs</a>
+        </nav>
+
+        <header>
+            <h1>Why I Love React</h1>
+            <div class="blog-meta">
+                <p>Published: June 14, 2025</p>
+            </div>
+        </header>
+
+        <section class="blog-content">
+            <p>After working with various JavaScript frameworks, React continues to be my go-to choice for building user interfaces. Here's why I love working with React.</p>
+
+            <h2>Component-Based Architecture</h2>
+            <p>React's component-based architecture makes it easy to build encapsulated, reusable UI elements. This leads to more maintainable code and faster development.</p>
+
+            <Quote text="The React way of thinking about UIs - as composable components - just makes sense to me. It's elegant and powerful." />
+
+            <h2>Virtual DOM</h2>
+            <p>React's Virtual DOM provides a performance optimization that minimizes expensive DOM operations. By updating only what's necessary, React ensures your applications remain fast and responsive.</p>
+
+            <h2>Strong Ecosystem</h2>
+            <p>The React ecosystem is vast and vibrant. From state management solutions like Redux and Zustand to styling libraries like styled-components and Tailwind CSS, there's a tool for every need.</p>
+
+            <h2>JSX Syntax</h2>
+            <p>JSX allows you to write HTML directly in your JavaScript code. This tight integration between markup and logic makes components more intuitive and easier to understand:</p>
+
+            <pre><code>function Welcome(props) &#123;
+  return &lt;h1&gt;Hello, &#123;props.name&#125;&lt;/h1&gt;;
+&#125;</code></pre>
+
+            <h2>Flexible Approach</h2>
+            <p>React doesn't force you into a specific way of doing things. It provides the tools and lets you decide how to structure your application. This flexibility allows React to adapt to various project requirements.</p>
+
+            <h2>Developer Experience</h2>
+            <p>The developer experience with React is excellent. Tools like Create React App, Next.js, and the React Developer Tools extension make development smooth and enjoyable.</p>
+
+            <h2>Learning Curve</h2>
+            <p>Despite its power, React has a reasonable learning curve. Once you understand a few core concepts (components, props, state), you can start building useful applications.</p>
+
+            <h2>Conclusion</h2>
+            <p>React has fundamentally changed how I approach front-end development. Its component model, performance optimizations, and developer experience make it a joy to work with.</p>
+        </section>
+    </div>
+</Layout>
+
+<style>
+    .blog-summary {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .breadcrumb {
+        margin-bottom: 2rem;
+    }
+
+    .breadcrumb a {
+        color: #0066cc;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    header {
+        margin-bottom: 2.5rem;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 1.5rem;
+    }
+
+    h1 {
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .blog-meta {
+        color: #666;
+        font-style: italic;
+    }
+
+    .blog-meta p {
+        margin: 0.25rem 0;
+    }
+
+    .blog-content h2 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    .blog-content h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #444;
+    }
+
+    .blog-content p {
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .blog-content ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
+    .blog-content li {
+        margin-bottom: 0.75rem;
+        line-height: 1.6;
+    }
+
+    .blog-content pre {
+        background-color: #f6f8fa;
+        border-radius: 6px;
+        padding: 16px;
+        overflow: auto;
+        font-family: monospace;
+        margin-bottom: 1rem;
+    }
+
+    .blog-content code {
+        font-family: monospace;
+        white-space: pre;
+    }
+</style>
