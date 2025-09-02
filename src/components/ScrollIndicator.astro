@@ -1,0 +1,47 @@
+---
+// ScrollIndicator.astro - A reusable component for page scroll progress indication
+---
+
+<div class="scroll-indicator-container">
+    <div class="scroll-indicator"></div>
+</div>
+
+<style>
+    .scroll-indicator-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: #f0f0f0;
+        z-index: 1000;
+    }
+
+    .scroll-indicator {
+        height: 100%;
+        width: 0;
+        background-color: #0066cc;
+        transition: width 0.1s ease;
+    }
+</style>
+
+<script>
+    // Update scroll indicator width based on scroll position
+    function updateScrollIndicator() {
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight - windowHeight;
+        const scrollPosition = window.scrollY;
+        const scrollPercentage = (scrollPosition / documentHeight) * 100;
+
+        const scrollIndicator = document.querySelector('.scroll-indicator') as HTMLElement;
+        if (scrollIndicator) {
+            scrollIndicator.style.width = `${scrollPercentage}%`;
+        }
+    }
+
+    // Add scroll event listener
+    window.addEventListener('scroll', updateScrollIndicator);
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', updateScrollIndicator);
+</script>

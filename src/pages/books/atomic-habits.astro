@@ -1,13 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ScrollIndicator from '../../components/ScrollIndicator.astro';
 ---
 
 <Layout>
+    <ScrollIndicator />
+
     <div class="book-summary">
         <nav class="breadcrumb">
             <a href="/books">← Back to Books</a>
         </nav>
-        
+
         <header>
             <h1>Atomic Habits - Summary Notes</h1>
             <div class="book-meta">
@@ -15,7 +18,7 @@ import Layout from '../../layouts/Layout.astro';
                 <p>Published: 2018</p>
             </div>
         </header>
-        
+
         <section class="summary-content">
             <h2>Key Takeaways</h2>
             <ul>
@@ -24,21 +27,21 @@ import Layout from '../../layouts/Layout.astro';
                 <li>Focus on your identity rather than outcomes. The goal is not to read a book, but to become a reader.</li>
                 <li>Use the four laws of behavior change to create good habits and break bad ones: make it obvious, make it attractive, make it easy, make it satisfying.</li>
             </ul>
-            
+
             <h2>The Four Laws of Behavior Change</h2>
-            
+
             <h3>1. Make it Obvious</h3>
             <p>Be aware of your habits through a habit scorecard. Use implementation intentions ("I will [BEHAVIOR] at [TIME] in [LOCATION]"). Use habit stacking to build new habits onto existing ones.</p>
-            
+
             <h3>2. Make it Attractive</h3>
             <p>Use temptation bundling. Join a culture where your desired behavior is the normal behavior. Create a motivation ritual.</p>
-            
+
             <h3>3. Make it Easy</h3>
             <p>Reduce friction. Prime your environment for future use. Master the decisive moment. Use the Two-Minute Rule to make habits easy to start.</p>
-            
+
             <h3>4. Make it Satisfying</h3>
             <p>Use reinforcement. Make "doing nothing" enjoyable. Use a habit tracker. Never miss twice.</p>
-            
+
             <h2>Advanced Tactics</h2>
             <p>The Goldilocks Rule: humans experience peak motivation when working on tasks that are right on the edge of their current abilities. The greatest threat to success is not failure but boredom.</p>
         </section>
@@ -51,63 +54,63 @@ import Layout from '../../layouts/Layout.astro';
         margin: 0 auto;
         padding: 2rem 1rem;
     }
-    
+
     .breadcrumb {
         margin-bottom: 2rem;
     }
-    
+
     .breadcrumb a {
         color: #0066cc;
         text-decoration: none;
         font-weight: 500;
     }
-    
+
     .breadcrumb a:hover {
         text-decoration: underline;
     }
-    
+
     header {
         margin-bottom: 2.5rem;
         border-bottom: 1px solid #eee;
         padding-bottom: 1.5rem;
     }
-    
+
     h1 {
         margin-bottom: 0.5rem;
         color: #333;
     }
-    
+
     .book-meta {
         color: #666;
         font-style: italic;
     }
-    
+
     .book-meta p {
         margin: 0.25rem 0;
     }
-    
+
     .summary-content h2 {
         margin-top: 2rem;
         margin-bottom: 1rem;
         color: #333;
     }
-    
+
     .summary-content h3 {
         margin-top: 1.5rem;
         margin-bottom: 0.5rem;
         color: #444;
     }
-    
+
     .summary-content p {
         margin-bottom: 1rem;
         line-height: 1.6;
     }
-    
+
     .summary-content ul {
         margin-bottom: 1.5rem;
         padding-left: 1.5rem;
     }
-    
+
     .summary-content li {
         margin-bottom: 0.75rem;
         line-height: 1.6;

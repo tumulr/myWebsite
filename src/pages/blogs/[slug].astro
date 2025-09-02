@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import CodeSnippet from '../../components/CodeSnippet.astro';
 import Quote from '../../components/Quote.astro';
+import ScrollIndicator from '../../components/ScrollIndicator.astro';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blogs');
@@ -17,17 +18,15 @@ const { Content } = await entry.render();
 ---
 
 <Layout>
-  <div class="scroll-indicator-container">
-    <div class="scroll-indicator"></div>
-  </div>
-  
+  <ScrollIndicator />
+
   <article class="blog-post">
     <div class="post-header">
       <h1>{entry.data.title}</h1>
       <p class="post-date">{entry.data.date}</p>
       <a href="/blogs" class="back-to-blogs">← Back to all posts</a>
     </div>
-    
+
     <div class="post-content">
       <Content components={{ Quote }} />
     </div>
@@ -35,23 +34,6 @@ const { Content } = await entry.render();
 </Layout>
 
 <style>
-  .scroll-indicator-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background-color: #f0f0f0;
-    z-index: 1000;
-  }
-
-  .scroll-indicator {
-    height: 100%;
-    width: 0;
-    background-color: #0066cc;
-    transition: width 0.1s ease;
-  }
-
   .blog-post {
     max-width: 800px;
     margin: 0 auto;
@@ -144,24 +126,3 @@ const { Content } = await entry.render();
     white-space: nowrap;
   }
 </style>
-
-<script>
-  // Update scroll indicator width based on scroll position
-  function updateScrollIndicator() {
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight - windowHeight;
-    const scrollPosition = window.scrollY;
-    const scrollPercentage = (scrollPosition / documentHeight) * 100;
-    
-    const scrollIndicator = document.querySelector('.scroll-indicator') as HTMLElement;
-    if (scrollIndicator) {
-      scrollIndicator.style.width = `${scrollPercentage}%`;
-    }
-  }
-
-  // Add scroll event listener
-  window.addEventListener('scroll', updateScrollIndicator);
-  
-  // Initialize on page load
-  document.addEventListener('DOMContentLoaded', updateScrollIndicator);
-</script>
