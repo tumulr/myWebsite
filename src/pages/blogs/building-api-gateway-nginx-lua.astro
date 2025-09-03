@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import ScrollIndicator from '../../components/ScrollIndicator.astro';
 import Quote from '../../components/Quote.astro';
 import CodeSnippet from '../../components/CodeSnippet.astro';
+import Image from '../../components/Image.astro';
 ---
 
 <Layout>
@@ -44,7 +45,7 @@ import CodeSnippet from '../../components/CodeSnippet.astro';
 
             <p>
                 Once installed, you should navigate to your browser and type <i>http://localhost</i>. If everything goes well, you will see the below screenshot:
-                <img src="/images/blogs/openresty_welcome.webp" alt="OpenResty Welcome Screenshot">
+                <Image src="/images/blogs/openresty_welcome.webp" alt="OpenResty Welcome Screenshot" />
             </p>
 
             <p>
@@ -60,7 +61,7 @@ import CodeSnippet from '../../components/CodeSnippet.astro';
 
                 <Quote text='Note: You can also add the configuration in a new file and include it in nginx.conf.' />
 
-                <img src="/images/blogs/nginx_lua.webp" alt="Nginx Lua API Gateway">
+                <Image src="/images/blogs/nginx_lua.webp" alt="Nginx Lua API Gateway" caption="Nginx Lua API Gateway" />
 
                 For a basic API gateway, there are two important operations that it should perform:
                 <ol>
