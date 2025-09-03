@@ -22,22 +22,22 @@ const { code, language = "plaintext", filename } = Astro.props;
     }
 
     .code-filename {
-        background-color: #2d2d2d;
-        color: #e6e6e6;
+        background-color: #f0f0f0;
+        color: #333;
         font-family: monospace;
         font-size: 0.9rem;
         padding: 0.5rem 1rem;
-        border-bottom: 1px solid #444;
+        border-bottom: 1px solid #ddd;
     }
 
     pre {
         margin: 0;
         padding: 1.25rem;
         overflow-x: auto;
-        background-color: #2d2d2d;
-        color: #e6e6e6;
+        background-color: #f8f8f8;
+        color: #333;
         border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     code {
@@ -46,40 +46,40 @@ const { code, language = "plaintext", filename } = Astro.props;
         line-height: 1.6;
     }
 
-    /* Basic syntax highlighting colors */
+    /* Basic syntax highlighting colors for light theme */
     :global(.token.comment),
     :global(.token.prolog),
     :global(.token.doctype),
     :global(.token.cdata) {
-        color: #999;
+        color: #708090;
     }
 
     :global(.token.punctuation) {
-        color: #ccc;
+        color: #444;
     }
 
     :global(.token.tag),
     :global(.token.attr-name),
     :global(.token.namespace),
     :global(.token.deleted) {
-        color: #e2777a;
+        color: #c92c2c;
     }
 
     :global(.token.function-name) {
-        color: #6196cc;
+        color: #2c7ad6;
     }
 
     :global(.token.boolean),
     :global(.token.number),
     :global(.token.function) {
-        color: #f08d49;
+        color: #d73a49;
     }
 
     :global(.token.property),
     :global(.token.class-name),
     :global(.token.constant),
     :global(.token.symbol) {
-        color: #f8c555;
+        color: #e36209;
     }
 
     :global(.token.selector),
@@ -87,7 +87,7 @@ const { code, language = "plaintext", filename } = Astro.props;
     :global(.token.atrule),
     :global(.token.keyword),
     :global(.token.builtin) {
-        color: #cc99cd;
+        color: #6f42c1;
     }
 
     :global(.token.string),
@@ -95,12 +95,12 @@ const { code, language = "plaintext", filename } = Astro.props;
     :global(.token.attr-value),
     :global(.token.regex),
     :global(.token.variable) {
-        color: #7ec699;
+        color: #22863a;
     }
 
     :global(.token.operator),
     :global(.token.entity),
     :global(.token.url) {
-        color: #67cdcc;
+        color: #005cc5;
     }
 </style>

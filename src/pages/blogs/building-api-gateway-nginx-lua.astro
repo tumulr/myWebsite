@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ScrollIndicator from '../../components/ScrollIndicator.astro';
 import Quote from '../../components/Quote.astro';
+import CodeSnippet from '../../components/CodeSnippet.astro';
 ---
 
 <Layout>
@@ -72,9 +73,9 @@ import Quote from '../../components/Quote.astro';
             <p>
                 To route the endpoints to their respective servers, all you need to do is:
 
-                <!-- <pre><code>location /api {
-                    proxy_pass http://backend-api;
-                }</code></pre> -->
+                <CodeSnippet code={`location /api {
+    proxy_pass http://backend-api;
+}`} />
             </p>
 
             <h2>Authentication</h2>
@@ -82,32 +83,33 @@ import Quote from '../../components/Quote.astro';
                 To perform authentication, I will be using JWT.
                 To do that, we need to install the <b>lua-resty-jwt</b> library using <b>OPM(OpenResty Package Manager)</b>.
 
-                <pre><code>opm get SkyLothar/lua-resty-jwt</code></pre>
+                <CodeSnippet code={`opm get SkyLothar/lua-resty-jwt`} />
 
                 Next, create a <b>jwt-auth.lua</b> in <i>/usr/local/openresty/lualib/resty</i> (Ubuntu) and copy the below code:
 
-                <!-- <pre><code>local jwt = require “resty.jwt”
-local validators = require “resty.jwt-validators”
-if ngx.var.request_method ~= “OPTIONS” and not string.match(ngx.var.uri, “login”) then
-  local jwtToken = ngx.var.http_Authorization
+                <CodeSnippet code={`local jwt = require "resty.jwt"
+local validators = require "resty.jwt-validators"
+if ngx.var.request_method ~= "OPTIONS" and not string.match(ngx.var.uri, "login") then
+    local jwtToken = ngx.var.http_Authorization
 if jwtToken == nil then
- ngx.status = ngx.HTTP_UNAUTHORIZED
- ngx.header.content_type = “application/json; charset=utf-8”
- ngx.say(“{\”error\”: \”Forbidden\”}”)
- ngx.exit(ngx.HTTP_UNAUTHORIZED)
- end
-local claim_spec = {
- exp = validators.is_not_expired()// To check expiry
-}
-local jwt_obj = jwt:verify(‘secret’, jwtToken, claim_spec)
-if not jwt_obj[“verified”] then
- ngx.status = ngx.HTTP_UNAUTHORIZED
- ngx.header.content_type = “application/json; charset=utf-8”
- ngx.say(“{\”error\”: \”INVALID_JWT\”}”)
- ngx.exit(ngx.HTTP_UNAUTHORIZED)
- end
+    ngx.status = ngx.HTTP_UNAUTHORIZED
+    ngx.header.content_type = "application/json; charset=utf-8"
+    ngx.say("{\"error\": \"Forbidden\"}")
+    ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
-                </code></pre> -->
+
+local claim_spec = {
+    exp = validators.is_not_expired() -- To check expiry
+}
+
+local jwt_obj = jwt:verify('secret', jwtToken, claim_spec)
+if not jwt_obj["verified"] then
+    ngx.status = ngx.HTTP_UNAUTHORIZED
+    ngx.header.content_type = "application/json; charset=utf-8"
+    ngx.say("{\"error\": \"INVALID_JWT\"}")
+    ngx.exit(ngx.HTTP_UNAUTHORIZED)
+    end
+end`} />
 
             </p>
 
@@ -127,7 +129,7 @@ end
             <p>
                 To check the changes we have made, restart OpenResty using the below command
 
-                <pre><code>sudo service openresty restart</code></pre>
+                <CodeSnippet code={`sudo service openresty restart`} />
             </p>
 
             <p>Once you restart, hit the API using Postman or any other REST client and validate the response.</p>
