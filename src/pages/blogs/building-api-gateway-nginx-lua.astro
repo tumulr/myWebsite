@@ -1,0 +1,230 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ScrollIndicator from '../../components/ScrollIndicator.astro';
+import Quote from '../../components/Quote.astro';
+---
+
+<Layout>
+    <ScrollIndicator />
+
+    <div class="blog-summary">
+        <nav class="breadcrumb">
+            <a href="/blogs">← Back to Blogs</a>
+        </nav>
+
+        <header>
+            <h1>Building an API Gateway with Nginx + Lua</h1>
+            <div class="blog-meta">
+                <p>October 23, 2019</p>
+            </div>
+        </header>
+
+        <section class="blog-content">
+            <p>
+                <b>Nginx</b> is a web server that can also be used as a reverse proxy, load balancer, mail proxy, and HTTP cache.
+                Nginx could be used to create an API Gateway that processes requests in an event-driven manner, handling queries to the server in a quick, low-resource-footprint manner as they come in.
+                Further, it reduces complexity and maximizes the performance by reducing the average response time to serve an API call.
+            </p>
+
+            <p>
+                Most of us are already familiar with <b>Kong</b> but, I wanted to explore the possibility of using <b>OpenResty</b> to build an API Gateway.
+            </p>
+
+            <h2>Implementation</h2>
+            <p>
+                For a personal website that's primarily content-focused, Astro was the perfect choice.
+                It allowed me to deliver a fast experience without sacrificing the developer experience I love.
+            </p>
+
+            <h2>Design Philosophy</h2>
+            <p>
+                The first thing we need to do is to install OpenResty. OpenResty gives us the capability of scripting Nginx using Lua.
+            </p>
+
+            <p>
+                Once installed, you should navigate to your browser and type <i>http://localhost</i>. If everything goes well, you will see the below screenshot:
+                <img src="/images/blogs/openresty_welcome.webp" alt="OpenResty Welcome Screenshot">
+            </p>
+
+            <p>
+                If you see the default Nginx welcome page, congratulations! You've successfully installed OpenResty.
+            </p>
+
+            <p>
+                Now, we need to edit the <b>nginx.conf</b> file. You can find the nginx.conf file in the below locations:
+                <ul>
+                    <li>Ubuntu: <i>/usr/local/openresty/nginx/conf</i></li>
+                    <li>Mac: <i>/usr/local/Cellar/openresty/nginx/conf</i> (with Homebrew)</li>
+                </ul>
+
+                <Quote text='Note: You can also add the configuration in a new file and include it in nginx.conf.' />
+
+                <img src="/images/blogs/nginx_lua.webp" alt="Nginx Lua API Gateway">
+
+                For a basic API gateway, there are two important operations that it should perform:
+                <ol>
+                    <li>Routing</li>
+                    <li>Authentication</li>
+                </ol>
+            </p>
+
+            <h2>Routing</h2>
+            <p>
+                To route the endpoints to their respective servers, all you need to do is:
+
+                <!-- <pre><code>location /api {
+                    proxy_pass http://backend-api;
+                }</code></pre> -->
+            </p>
+
+            <h2>Authentication</h2>
+            <p>
+                To perform authentication, I will be using JWT.
+                To do that, we need to install the <b>lua-resty-jwt</b> library using <b>OPM(OpenResty Package Manager)</b>.
+
+                <pre><code>opm get SkyLothar/lua-resty-jwt</code></pre>
+
+                Next, create a <b>jwt-auth.lua</b> in <i>/usr/local/openresty/lualib/resty</i> (Ubuntu) and copy the below code:
+
+                <!-- <pre><code>local jwt = require “resty.jwt”
+local validators = require “resty.jwt-validators”
+if ngx.var.request_method ~= “OPTIONS” and not string.match(ngx.var.uri, “login”) then
+  local jwtToken = ngx.var.http_Authorization
+if jwtToken == nil then
+ ngx.status = ngx.HTTP_UNAUTHORIZED
+ ngx.header.content_type = “application/json; charset=utf-8”
+ ngx.say(“{\”error\”: \”Forbidden\”}”)
+ ngx.exit(ngx.HTTP_UNAUTHORIZED)
+ end
+local claim_spec = {
+ exp = validators.is_not_expired()// To check expiry
+}
+local jwt_obj = jwt:verify(‘secret’, jwtToken, claim_spec)
+if not jwt_obj[“verified”] then
+ ngx.status = ngx.HTTP_UNAUTHORIZED
+ ngx.header.content_type = “application/json; charset=utf-8”
+ ngx.say(“{\”error\”: \”INVALID_JWT\”}”)
+ ngx.exit(ngx.HTTP_UNAUTHORIZED)
+ end
+end
+                </code></pre> -->
+
+            </p>
+
+            <p>
+                The above Lua code does the following:
+                <ol>
+                    <li>It forwards the request to the next line of execution if it is an OPTIONS call or a login API.</li>
+                    <li>Otherwise, it fetches the JWT token in the Authorization header. If the token is not present, the code returns <i>'FORBIDDEN'</i>.</li>
+                    <li>This JWT token is then validated for authenticity and expiry date.</li>
+                    <li>Once the token is validated, it forwards the request to the respective service. Else, it returns <i>'INVALID_JWT'</i>.</li>
+                </ol>
+
+                Include the above file in your nginx.conf.
+            </p>
+
+            <h2>Testing</h2>
+            <p>
+                To check the changes we have made, restart OpenResty using the below command
+
+                <pre><code>sudo service openresty restart</code></pre>
+            </p>
+
+            <p>Once you restart, hit the API using Postman or any other REST client and validate the response.</p>
+
+            <Quote text="Tip: You can generate JWT tokens using this website: http://jwtbuilder.jamiekurtz.com/" />
+
+            <h2>Todo</h2>
+            <p>
+                We can improve our auth script by doing the following:
+                <ol>
+                    <li>A mechanism to add new API endpoints that don't need a JWT token like downloads API.</li>
+                    <li>Currently, JWT secret token is hardcoded in the script. Maybe we could set it as an environment variable to make it dynamic.</li>
+                </ol>
+            </p>
+        </section>
+    </div>
+</Layout>
+
+<style>
+    .blog-summary {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .breadcrumb {
+        margin-bottom: 2rem;
+    }
+
+    .breadcrumb a {
+        color: #0066cc;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    header {
+        margin-bottom: 2.5rem;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 1.5rem;
+    }
+
+    h1 {
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .blog-meta {
+        color: #666;
+        font-style: italic;
+    }
+
+    .blog-meta p {
+        margin: 0.25rem 0;
+    }
+
+    .blog-content h2 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    .blog-content h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #444;
+    }
+
+    .blog-content p {
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .blog-content ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
+    .blog-content li {
+        margin-bottom: 0.75rem;
+        line-height: 1.6;
+    }
+
+    .blog-content pre {
+        background-color: #f6f8fa;
+        border-radius: 6px;
+        padding: 16px;
+        overflow: auto;
+        font-family: monospace;
+        margin-bottom: 1rem;
+    }
+
+    .blog-content code {
+        font-family: monospace;
+        white-space: pre;
+    }
+</style>
