@@ -8,8 +8,8 @@ const { text, author } = Astro.props;
 ---
 
 <blockquote class="quote">
-    <p>"{text}"</p>
-    {author && <cite>— {author}</cite>}
+    <p set:html={`${text}`}></p>
+    {author && <cite>— <span set:html={author}></span></cite>}
 </blockquote>
 
 <style>
@@ -18,7 +18,6 @@ const { text, author } = Astro.props;
         border-left: 4px solid #0066cc;
         margin: 1.5rem 0;
         padding: 1rem 1.5rem;
-        font-style: italic;
         border-radius: 0 4px 4px 0;
     }
 
