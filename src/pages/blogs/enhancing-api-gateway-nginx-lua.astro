@@ -1,0 +1,245 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ScrollIndicator from '../../components/ScrollIndicator.astro';
+import Quote from '../../components/Quote.astro';
+import CodeSnippet from '../../components/CodeSnippet.astro';
+import Image from '../../components/Image.astro';
+---
+
+<Layout>
+    <ScrollIndicator />
+
+    <div class="blog-summary">
+        <nav class="breadcrumb">
+            <a href="/blogs">← Back to Blogs</a>
+        </nav>
+
+        <header>
+            <h1>Enhancing API Gateway through OpenResty and Lua</h1>
+            <div class="blog-meta">
+                <p>September 20, 2020</p>
+            </div>
+        </header>
+
+        <section class="blog-content">
+            <p>
+                <a href="https://openresty.org/en">OpenResty</a> is a dynamic web platform that combines <a href="https://nginx.org/en/">Nginx</a> and <a href="https://luajit.org/">LuaJIT</a>.
+                I have described it in detail in my previous article. To set it up and start coding, you can check it out <a href="/blogs/building-api-gateway-nginx-lua">here</a>.
+            </p>
+
+            <p>
+                In this article, I would like to address a few enhancements which are essential to an API Gateway. They are as follows:
+                <ol>
+                    <li>Public URL Management</li>
+                    <li>Archive User</li>
+                </ol>
+
+                <Image src="/images/blogs/api_gateway_enhancements.webp" alt="API Gateway Enhancements" caption="API Gateway Enhancements" />
+            </p>
+
+            <h2>Public URL Management</h2>
+            <p>
+                In most systems, we have URLs that need to be exposed to the client and will not contain any token, like login APIs, etc.
+                In this case, we would like our API Gateway to allow the URL and bypass any authentication.
+            </p>
+
+            <p>
+                To achieve this, we will be using <a href="https://redis.io/">Redis</a>. It will store all the public URLs.
+                We are using this so that we can dynamically add/modify the public URL list.
+                Below screenshot shows the Redis key that contains the list of all public URLs:
+
+                <Image src="/images/blogs/redis_public_urls.webp" alt="Redis Public URLs" caption="Redis key containing all public URLs" />
+
+                We can fetch the Redis API string using the resty-redis module present in OpenResty. Below is the code snippet:
+
+                <CodeSnippet code={`local function check_public_api(ngx, api_str)
+    -- Converts Redis API string to Lua table
+    local api_table = get_api_table(api_str)
+
+    if (api_table[ngx.var.uri] == "true") then
+        return {
+            ["status"] = true,
+            ["message"] = "PUBLIC_API"
+        }
+    else
+        -- Handle dynamic URLs
+        for k,v in pairs(api_table) do
+            local final_api_string = k:gsub("%:id", "%%w+")
+
+            if (string.match( ngx.var.request_method .. ":" .. ngx.var.uri,
+                              final_api_string) ~= nil) then
+                return {
+                    ["status"] = true,
+                    ["message"] = "PUBLIC_API"
+                }
+            end
+        end
+    end
+
+    return {
+        ["status"] = false,
+        ["message"] = "PRIVATE_API"
+    }
+end`} />
+                The above code does the following:
+                <ol>
+                    <li>Converts Redis String to a Lua Table to easily access the list.</li>
+                    <li>Checks whether the current URL is present in the Lua Table.</li>
+                    <li>In the case of dynamic URLs, the dynamic URL is converted to a regex string.</li>
+                    <li>After that, we check whether it is a part of Public API’s or not.</li>
+                </ol>
+            </p>
+
+            <h2>Archive User</h2>
+            <p>
+                This is useful in cases when a user has deactivated his/her account. In this case, you would want the user to not be able to access the system.
+            </p>
+
+            <p>
+                This can be easily handled in an API Gateway. All we have to do is to check whether a token belongs to the archived user.
+                If it does, then give a 401 Unauthorized error from the gateway itself.
+            </p>
+
+            <p>
+                To achieve this, we will store the archived user in Redis. I am storing it in the form of <i>ARCHIVED_(user_id)</i>.
+                <Image src="/images/blogs/redis_archived_users.webp" alt="Redis Archived Users" caption="Redis key containing all archived users" />
+
+                Each JWT payload contains the user id. So we can get it by simple Base64 decode and check if the user exists in Redis.
+                If it does, then we can send back the unauthorized error. Below is the code snippet to achieve this:
+
+                <CodeSnippet code={`function _M.is_user_allowed(self, ngx, redis_conn)
+    -- Get JWT Token
+    local jwt_token = helpers:fetch_jwt(ngx)
+    if (jwt_token == nil or jwt_token == "") then
+        return {
+            ["status"] = false,
+            ["message"] = "JWT_NOT_PRESENT"
+        }
+    end
+
+    -- Fetch User ID from JWT Payload
+    local jwt_payload_b64 = ngx.decode_base64(helpers:string_split(jwt_token, ".")[2])
+    local jwt_payload = cjson.decode(jwt_payload_b64)
+    local emp_id = jwt_payload["id"]
+
+    -- Fetch User Record from Redis
+    local emp_red_resp = redis_conn:get("ARCHIVED_" .. emp_id)
+    if emp_red_resp == "true" then
+        return {
+            ["status"] = false,
+            ["message"] = "USER_ARCHIVED"
+        }
+    end
+
+    return {
+        ["status"] = true,
+        ["message"] = "USER_ACTIVE"
+    }
+end`} />
+                The above code does the following:
+                <ol>
+                    <li>Fetches the JWT token from the Authorization header.</li>
+                    <li>Decodes the JWT payload and fetches the user id.</li>
+                    <li>Checks whether the user id is present in Redis or not.</li>
+                    <li>If it is present, then it returns that the user is archived. Else, it returns that the user is active.</li>
+                </ol>
+
+                That's it!
+            </p>
+
+            <h2>Final Thoughts</h2>
+            <p>
+                With this, you now have an API Gateway that allows public URLs and does not allow deactivated users to access the system.
+            </p>
+
+            <p>
+                We should check about the additional overhead that occurs with the addition of the above features.
+                We should also perform load testing against our customize API gateway and compare the results with Nginx.
+                That could be a discussion for another article.
+            </p>
+        </section>
+    </div>
+</Layout>
+
+<style>
+    .blog-summary {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .breadcrumb {
+        margin-bottom: 2rem;
+    }
+
+    .breadcrumb a {
+        color: #0066cc;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    header {
+        margin-bottom: 2.5rem;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 1.5rem;
+    }
+
+    h1 {
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .blog-meta {
+        color: #666;
+        font-style: italic;
+    }
+
+    .blog-meta p {
+        margin: 0.25rem 0;
+    }
+
+    .blog-content h2 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    .blog-content h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #444;
+    }
+
+    .blog-content p {
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .blog-content ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
+    .blog-content li {
+        margin-bottom: 0.75rem;
+        line-height: 1.6;
+    }
+
+    .blog-content pre {
+        background-color: #f6f8fa;
+        border-radius: 6px;
+        padding: 16px;
+        overflow: auto;
+        font-family: monospace;
+        margin-bottom: 1rem;
+    }
+
+    .blog-content code {
+        font-family: monospace;
+        white-space: pre;
+    }
+</style>
