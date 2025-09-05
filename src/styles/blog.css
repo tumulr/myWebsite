@@ -97,12 +97,13 @@ h1 {
 
 .blog-content a {
     color: #0066cc;
-    text-decoration: underline;
     font-weight: 500;
+    text-decoration: none;
 }
 
 .blog-content a:hover {
-    color: black;
+    color: #004d99;
+    text-decoration: underline;
 }
 
 /* Additional spacing for component consistency */
