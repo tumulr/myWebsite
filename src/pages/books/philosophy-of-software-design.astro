@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import Quote from '../../components/Quote.astro';
 import ScrollIndicator from '../../components/ScrollIndicator.astro';
+
+import '../../styles/book.css';
 ---
 
 <Layout>
@@ -12,7 +14,7 @@ import ScrollIndicator from '../../components/ScrollIndicator.astro';
             <a href="/books">← Back to Books</a>
         </nav>
 
-        <header>
+        <header class="book-header">
             <h1>A Philosophy of Software Design, 2nd Edition - Summary Notes</h1>
             <div class="book-meta">
                 <p>Author: John Ousterhout</p>
@@ -127,72 +129,3 @@ import ScrollIndicator from '../../components/ScrollIndicator.astro';
         </section>
     </div>
 </Layout>
-
-<style>
-    .book-summary {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem 1rem;
-    }
-
-    .breadcrumb {
-        margin-bottom: 2rem;
-    }
-
-    .breadcrumb a {
-        color: #0066cc;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .breadcrumb a:hover {
-        text-decoration: underline;
-    }
-
-    header {
-        margin-bottom: 2.5rem;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 1.5rem;
-    }
-
-    h1 {
-        margin-bottom: 0.5rem;
-        color: #333;
-    }
-
-    .book-meta {
-        color: #666;
-        font-style: italic;
-    }
-
-    .book-meta p {
-        margin: 0.25rem 0;
-    }
-
-    .summary-content h2 {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-        color: #333;
-    }
-
-    .summary-content h3 {
-        margin-top: 1.5rem;
-        margin-bottom: 0.5rem;
-        color: #444;
-    }
-
-    .summary-content p {
-        margin-bottom: 1rem;
-        line-height: 1.6;
-    }
-
-    .summary-content ul {
-        margin-bottom: 1.5rem;
-        padding-left: 1.5rem;
-    }
-
-    .summary-content li {
-        margin-bottom: 0.75rem;
-        line-height: 1.6;
-    }
-</style>

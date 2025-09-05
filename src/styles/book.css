@@ -1,0 +1,136 @@
+/* Book note styles */
+.book-summary {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.breadcrumb {
+    margin-bottom: 2rem;
+}
+
+.breadcrumb a {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.book-header {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1.5rem;
+}
+
+.book-summary h1 {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.book-meta {
+    color: #666;
+    font-style: italic;
+}
+
+.book-meta p {
+    margin: 0.25rem 0;
+}
+
+.summary-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.summary-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.summary-content p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.summary-content ul, .summary-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.summary-content li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+/* Additional styling for code blocks in book summaries */
+.summary-content pre {
+    background-color: #f6f8fa;
+    border-radius: 6px;
+    padding: 16px;
+    overflow: auto;
+    font-family: monospace;
+    margin-bottom: 1rem;
+}
+
+.summary-content code {
+    font-family: monospace;
+    white-space: pre;
+}
+
+/* Additional styling for images */
+.summary-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+/* Additional styling for blockquotes */
+.summary-content blockquote {
+    border-left: 4px solid #0066cc;
+    padding-left: 1rem;
+    margin-left: 0;
+    margin-bottom: 1.5rem;
+    color: #555;
+    font-style: italic;
+}
+
+/* Additional styling for links */
+.summary-content a {
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+.summary-content a:hover {
+    text-decoration: none;
+}
+
+/* Styling for book ratings or tags if needed */
+.book-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.book-tag {
+    background-color: #f0f0f0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.book-rating {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.star {
+    color: #f8d448;
+    margin-right: 0.25rem;
+}
