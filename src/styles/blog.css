@@ -73,7 +73,6 @@ h1 {
     padding: 16px;
     overflow: auto;
     font-family: monospace;
-    margin-bottom: 1rem;
 }
 
 .blog-content code {
@@ -85,7 +84,6 @@ h1 {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    margin: 1.5rem 0;
 }
 
 .blog-content b, .blog-content strong {
@@ -100,10 +98,11 @@ h1 {
 .blog-content a {
     color: #0066cc;
     text-decoration: underline;
+    font-weight: 500;
 }
 
 .blog-content a:hover {
-    text-decoration: none;
+    color: black;
 }
 
 /* Additional spacing for component consistency */

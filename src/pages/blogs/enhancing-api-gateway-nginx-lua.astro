@@ -4,6 +4,8 @@ import ScrollIndicator from '../../components/ScrollIndicator.astro';
 import Quote from '../../components/Quote.astro';
 import CodeSnippet from '../../components/CodeSnippet.astro';
 import Image from '../../components/Image.astro';
+
+import '../../styles/blog.css';
 ---
 
 <Layout>
@@ -160,86 +162,3 @@ end`} />
         </section>
     </div>
 </Layout>
-
-<style>
-    .blog-summary {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem 1rem;
-    }
-
-    .breadcrumb {
-        margin-bottom: 2rem;
-    }
-
-    .breadcrumb a {
-        color: #0066cc;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .breadcrumb a:hover {
-        text-decoration: underline;
-    }
-
-    header {
-        margin-bottom: 2.5rem;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 1.5rem;
-    }
-
-    h1 {
-        margin-bottom: 0.5rem;
-        color: #333;
-    }
-
-    .blog-meta {
-        color: #666;
-        font-style: italic;
-    }
-
-    .blog-meta p {
-        margin: 0.25rem 0;
-    }
-
-    .blog-content h2 {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-        color: #333;
-    }
-
-    .blog-content h3 {
-        margin-top: 1.5rem;
-        margin-bottom: 0.5rem;
-        color: #444;
-    }
-
-    .blog-content p {
-        margin-bottom: 1rem;
-        line-height: 1.6;
-    }
-
-    .blog-content ul {
-        margin-bottom: 1.5rem;
-        padding-left: 1.5rem;
-    }
-
-    .blog-content li {
-        margin-bottom: 0.75rem;
-        line-height: 1.6;
-    }
-
-    .blog-content pre {
-        background-color: #f6f8fa;
-        border-radius: 6px;
-        padding: 16px;
-        overflow: auto;
-        font-family: monospace;
-        margin-bottom: 1rem;
-    }
-
-    .blog-content code {
-        font-family: monospace;
-        white-space: pre;
-    }
-</style>
